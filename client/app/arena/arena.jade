@@ -2,6 +2,19 @@
   .col-md-12
       | This is the arena view.
   .row
-    {{my_play}}
-  .row
-    {{your_play}}
+    .col-md-6
+      h1 My Play
+      img(ng-show="my_play == 'rock'", src="img/rock.png")
+      img(ng-show="my_play == 'paper'", src="img/paper.png")
+      img(ng-show="my_play == 'scissors'", src="img/scissors.png")
+      {{my_play}}
+    .col-md-6
+      h1 Opponent Play
+      img(ng-show="your_play == 'rock'", src="img/rock.png")
+      img(ng-show="your_play == 'paper'", src="img/paper.png")
+      img(ng-show="your_play == 'scissors'", src="img/scissors.png")
+      {{your_play}}
+   .row
+    h1(ng-show="winner == 'player'",style="text-align: center") You win!
+    h1(ng-show="winner == 'opponent'",style="text-align: center") You lose!
+    h1(ng-show="winner == 'tie'",style="text-align: center") It's a tie!

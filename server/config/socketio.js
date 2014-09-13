@@ -55,9 +55,22 @@ module.exports = function (socketio) {
     onConnect(socket);
     console.info('[%s] CONNECTED', socket.address);
 
-    socket.on('play', function(pose) {
+    socket.on('play', function(pose, room) {
       console.log('player played ', pose);
-      socket.broadcast.emit('play', pose);
+      console.log('room: ', room);
+      socket.broadcast.to(room).emit('play', pose);
+      //socket.broadcast.emit('play', pose);
     });
+
+    socket.on('resetGame', function(pose, room) {
+      console.log('room: ', room);
+      socket.broadcast.to(room).emit('resetGame');
+      //socket.broadcast.emit('resetGame');
+    });
+
+    socket.on('joinRoom', function(room) {
+      socket.join(room);
+    });
+
   });
 };

@@ -5,6 +5,7 @@ angular.module('rpsOnlineApp')
   $scope
   , hotkeys
   , socket
+  , $location
   ) {
     
     var arena_socket = socket.socket;
@@ -12,15 +13,51 @@ angular.module('rpsOnlineApp')
     $scope.playing_game = false;
     $scope.opponent_played = false;
     $scope.player_played = false;
-
      
     $scope.my_play = null;
     $scope.your_play = null;
+    $scope.winner = null;
+
+
+    $scope.room = $location.$$url.split('/')[2];
+    arena_socket.emit('joinRoom', $location.$$url.split('/')[2]);
+    console.log('room: ', $scope.room);
+
+    var playGame = function(player_pose, opponent_pose) {
+      if(player_pose == 'rock') {
+        if(opponent_pose == 'rock') {
+          return 'tie';
+        } else if(opponent_pose == 'paper') {
+          return 'opponent';
+        } else if(opponent_pose == 'scissors') {
+          return 'player';
+        }
+      } else if(player_pose == 'paper') {
+        if(opponent_pose == 'rock') {
+          return 'player';
+        } else if(opponent_pose == 'paper') {
+          return 'tie';
+        } else if(opponent_pose == 'scissors') {
+          return 'opponent';
+        }
+      } else { // if(player_pose == 'scissors') {
+        if(opponent_pose == 'rock') {
+          return 'opponent';
+        } else if(opponent_pose == 'paper') {
+          return 'player';
+        } else { // if(opponent_pose == 'scissors') {
+          return 'tie';
+        }
+      }
+      
+    }
 
     $scope.$watch('opponent_played', function(new_value, old_value) {
       console.log('watch');
       if($scope.playing_game && $scope.player_played && $scope.opponent_played) {
         console.log('play hands!', $scope.my_play, $scope.your_play);
+        $scope.winner = playGame($scope.my_play, $scope.your_play);
+        arena_socket.emit('resetGame', $scope.room);
       }
     });
 
@@ -28,6 +65,8 @@ angular.module('rpsOnlineApp')
       console.log('watch');
       if($scope.playing_game && $scope.player_played && $scope.opponent_played) {
         console.log('play hands!', $scope.my_play, $scope.your_play);
+        $scope.winner = playGame($scope.my_play, $scope.your_play);
+        arena_socket.emit('resetGame', $scope.room);
       }
     });
 
@@ -37,6 +76,11 @@ angular.module('rpsOnlineApp')
       console.log('play', pose);
     });
 
+    arena_socket.on('resetGame', function(pose) {
+      setTimeout(function() {
+        $scope.reset();
+      }, 5000);
+    });
     
     $scope.playRock = function() {
       if($scope.playing_game == false) {
@@ -44,7 +88,7 @@ angular.module('rpsOnlineApp')
         $scope.player_played = true;
         console.log('rock');
         $scope.my_play = "rock";
-        arena_socket.emit('play', 'rock');
+        arena_socket.emit('play', 'rock', $scope.room);
       } else {
         console.log('already playing game');
       }
@@ -56,7 +100,7 @@ angular.module('rpsOnlineApp')
         $scope.player_played = true;
         console.log('paper');
         $scope.my_play = "paper";
-        arena_socket.emit('play', 'paper');
+        arena_socket.emit('play', 'paper', $scope.room);
       } else {
         console.log('already playing game');
       }
@@ -68,10 +112,22 @@ angular.module('rpsOnlineApp')
         $scope.player_played = true;
         console.log('scissors');
         $scope.my_play = "scissors";
-        arena_socket.emit('play', 'scissors');
+        arena_socket.emit('play', 'scissors', $scope.room);
       } else {
         console.log('already playing game');
       }
+    }
+  
+    $scope.reset = function() {
+      $scope.playing_game = false;
+      $scope.opponent_played = false;
+      $scope.player_played = false;
+       
+      $scope.my_play = null;
+      $scope.your_play = null;
+      $scope.winner = null;
+
+      console.log('reset');
     }
 
     // You can pass it an object.  This hotkey will not be unbound unless manually removed
@@ -94,5 +150,12 @@ angular.module('rpsOnlineApp')
       description: 'Plays scissors',
       callback: $scope.playScissors
     });
+
+    // undo move
+    //hotkeys.add({
+      //combo: 'u',
+      //description: 'Undo',
+      //callback: $scope.reset
+    //});
 
   });
