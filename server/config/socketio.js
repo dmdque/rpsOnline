@@ -62,7 +62,7 @@ module.exports = function (socketio) {
       //socket.broadcast.emit('play', pose);
     });
 
-    socket.on('resetGame', function(pose, room) {
+    socket.on('resetGame', function(room) {
       console.log('room: ', room);
       socket.broadcast.to(room).emit('resetGame');
       //socket.broadcast.emit('resetGame');

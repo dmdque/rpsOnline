@@ -57,7 +57,7 @@ angular.module('rpsOnlineApp')
       if($scope.playing_game && $scope.player_played && $scope.opponent_played) {
         console.log('play hands!', $scope.my_play, $scope.your_play);
         $scope.winner = playGame($scope.my_play, $scope.your_play);
-        arena_socket.emit('resetGame', $scope.room);
+        //arena_socket.emit('resetGame', $scope.room);
       }
     });
 
@@ -66,7 +66,7 @@ angular.module('rpsOnlineApp')
       if($scope.playing_game && $scope.player_played && $scope.opponent_played) {
         console.log('play hands!', $scope.my_play, $scope.your_play);
         $scope.winner = playGame($scope.my_play, $scope.your_play);
-        arena_socket.emit('resetGame', $scope.room);
+        //arena_socket.emit('resetGame', $scope.room);
       }
     });
 
@@ -76,10 +76,9 @@ angular.module('rpsOnlineApp')
       console.log('play', pose);
     });
 
-    arena_socket.on('resetGame', function(pose) {
-      setTimeout(function() {
-        $scope.reset();
-      }, 5000);
+    arena_socket.on('resetGame', function() {
+      console.log('reset game');
+      $scope.reset();
     });
     
     $scope.playRock = function() {
@@ -118,6 +117,12 @@ angular.module('rpsOnlineApp')
       }
     }
   
+    $scope.clear = function() {
+      console.log('scope room: ', $scope.room);
+      arena_socket.emit('resetGame', $scope.room);
+      $scope.reset();
+    }
+
     $scope.reset = function() {
       $scope.playing_game = false;
       $scope.opponent_played = false;
@@ -152,10 +157,10 @@ angular.module('rpsOnlineApp')
     });
 
     // undo move
-    //hotkeys.add({
-      //combo: 'u',
-      //description: 'Undo',
-      //callback: $scope.reset
-    //});
+    hotkeys.add({
+      combo: 'esc',
+      description: 'Clear',
+      callback: $scope.clear
+    });
 
   });
