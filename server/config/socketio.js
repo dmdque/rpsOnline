@@ -18,6 +18,7 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
+  require('../api/game/game.socket').register(socket);
   require('../api/thing/thing.socket').register(socket);
 }
 
@@ -53,5 +54,10 @@ module.exports = function (socketio) {
     // Call onConnect.
     onConnect(socket);
     console.info('[%s] CONNECTED', socket.address);
+
+    socket.on('play', function(pose) {
+      console.log('player played ', pose);
+      socket.broadcast.emit('play', pose);
+    });
   });
 };
