@@ -15,7 +15,7 @@ angular.module('rpsOnlineApp')
     $scope.player_played = false;
      
     $scope.my_play = null;
-    $scope.your_play = null;
+    $scope.opponent_play = null;
     $scope.winner = null;
 
 
@@ -55,8 +55,8 @@ angular.module('rpsOnlineApp')
     $scope.$watch('opponent_played', function(new_value, old_value) {
       console.log('watch');
       if($scope.playing_game && $scope.player_played && $scope.opponent_played) {
-        console.log('play hands!', $scope.my_play, $scope.your_play);
-        $scope.winner = playGame($scope.my_play, $scope.your_play);
+        console.log('play hands!', $scope.my_play, $scope.opponent_play);
+        $scope.winner = playGame($scope.my_play, $scope.opponent_play);
         //arena_socket.emit('resetGame', $scope.room);
       }
     });
@@ -64,15 +64,15 @@ angular.module('rpsOnlineApp')
     $scope.$watch('player_played', function(new_value, old_value) {
       console.log('watch');
       if($scope.playing_game && $scope.player_played && $scope.opponent_played) {
-        console.log('play hands!', $scope.my_play, $scope.your_play);
-        $scope.winner = playGame($scope.my_play, $scope.your_play);
+        console.log('play hands!', $scope.my_play, $scope.opponent_play);
+        $scope.winner = playGame($scope.my_play, $scope.opponent_play);
         //arena_socket.emit('resetGame', $scope.room);
       }
     });
 
     arena_socket.on('play', function(pose) {
       $scope.opponent_played = true;
-      $scope.your_play = pose;
+      $scope.opponent_play = pose;
       console.log('play', pose);
     });
 
@@ -129,7 +129,7 @@ angular.module('rpsOnlineApp')
       $scope.player_played = false;
        
       $scope.my_play = null;
-      $scope.your_play = null;
+      $scope.opponent_play = null;
       $scope.winner = null;
 
       console.log('reset');

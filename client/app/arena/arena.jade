@@ -1,8 +1,12 @@
 div(ng-include='"components/navbar/navbar.html"')
 .container
   .row
+    .col-md-12
+      h4 Instructions
+      p Press 'r' for rock, 'p' for paper, or 's' for scissors at the same time as your opponent. If one of you went too early, press 'esc' to restart the game.
+  .row
     .col-md-6
-      h1 My Play
+      h1 Your Play
       img(ng-show="my_play == 'rock'", src="https://raw.githubusercontent.com/dmdque/rpsOnline/master/public/img/rock.png")
       img(ng-show="my_play == 'paper'", src="https://raw.githubusercontent.com/dmdque/rpsOnline/master/public/img/paper.png")
       img(ng-show="my_play == 'scissors'", src="https://raw.githubusercontent.com/dmdque/rpsOnline/master/public/img/scissors.png")
@@ -11,15 +15,16 @@ div(ng-include='"components/navbar/navbar.html"')
       //-img(ng-show="my_play == 'scissors'", src="img/scissors.png")
       {{my_play}}
     .col-md-6
-      h1 Opponent Play
-      img(ng-show="your_play == 'rock'", src="https://raw.githubusercontent.com/dmdque/rpsOnline/master/public/img/rock.png")
-      img(ng-show="your_play == 'paper'", src="https://raw.githubusercontent.com/dmdque/rpsOnline/master/public/img/paper.png")
-      img(ng-show="your_play == 'scissors'", src="https://raw.githubusercontent.com/dmdque/rpsOnline/master/public/img/scissors.png")
-      //-img(ng-show="your_play == 'rock'", src="img/rock.png")
-      //-img(ng-show="your_play == 'paper'", src="img/paper.png")
-      //-img(ng-show="your_play == 'scissors'", src="img/scissors.png")
-      {{your_play}}
+      h1 Opponent's Play
+      img(ng-show="opponent_play == 'rock'", src="https://raw.githubusercontent.com/dmdque/rpsOnline/master/public/img/rock.png")
+      img(ng-show="opponent_play == 'paper'", src="https://raw.githubusercontent.com/dmdque/rpsOnline/master/public/img/paper.png")
+      img(ng-show="opponent_play == 'scissors'", src="https://raw.githubusercontent.com/dmdque/rpsOnline/master/public/img/scissors.png")
+      //-img(ng-show="opponent_play == 'rock'", src="img/rock.png")
+      //-img(ng-show="opponent_play == 'paper'", src="img/paper.png")
+      //-img(ng-show="opponent_play == 'scissors'", src="img/scissors.png")
+      {{opponent_play}}
    .row
-    h1(ng-show="winner == 'player'",style="text-align: center") You win!
-    h1(ng-show="winner == 'opponent'",style="text-align: center") You lose!
-    h1(ng-show="winner == 'tie'",style="text-align: center") It's a tie!
+     .col-md-12
+       h1(ng-show="winner == 'player'") You win!
+       h1(ng-show="winner == 'opponent'") You lose!
+       h1(ng-show="winner == 'tie'") It's a tie!
