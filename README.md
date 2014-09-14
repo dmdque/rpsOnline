@@ -1,10 +1,10 @@
 rps-myo
 =======
-##Build Info
-Once all necessary dependencies are installed (check generator-angular-fullstack for info), run
+##Demo
+Once all necessary dependencies are installed (check generator-angular-fullstack for info), run:
 > grunt serve
 
-Or see http://virtualrps.herokuapp.com for a live version.
+See http://virtualrps.herokuapp.com to try out a live version, or watch the [demo presentation](http://youtu.be/4-c7qIWKohw?t=4m00s) with a Thalmic Myo.
 
 ##Instructions
 Navigate to localhost:9000/arena/room_id with a buddy, and press 'r' for rock, 'p' for paper, or 's' for scissors to play.
