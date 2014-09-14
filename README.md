@@ -4,7 +4,7 @@ rps-myo
 Once all necessary dependencies are installed (check generator-angular-fullstack for info), run
 > grunt serve
 
-Or see http://virtualrps.herokuapp.com/arena/lounge for live version.
+Or see http://virtualrps.herokuapp.com for a live version.
 
 ##Instructions
 Navigate to localhost:9000/arena/room_id with a buddy, and press 'r' for rock, 'p' for paper, or 's' for scissors to play.
